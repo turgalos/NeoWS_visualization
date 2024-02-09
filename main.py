@@ -1,4 +1,4 @@
-import json, os, requests
+import json, os, requests, argparse
 import plotly.express as px
 from datetime import datetime
 from collections import namedtuple
@@ -6,8 +6,14 @@ import pandas as pd
 
 
 api_key = os.getenv("NASA_API_KEY")
-start_date = "2024-02-09"
-end_date = "2024-02-11"
+
+parser = argparse.ArgumentParser(description='Pobierz dane NEO z API NASA i wygeneruj wykres.')
+parser.add_argument('start_date', type=str, help='Data początkowa w formacie YYYY-MM-DD')
+parser.add_argument('end_date', type=str, help='Data końcowa w formacie YYYY-MM-DD')
+args = parser.parse_args()
+
+start_date = args.start_date
+end_date = args.end_date
 
 url = 'https://api.nasa.gov/neo/rest/v1/feed?' \
       f'start_date={start_date}&end_date={end_date}&api_key={api_key}'
